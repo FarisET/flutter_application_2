@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_types_as_parameter_names
 
 import 'dart:convert';
 
@@ -37,23 +37,57 @@ late Future<List<Comments>> futureComments;
                 itemBuilder: (context, i) {
                   var item = snapshot.data![i];
 
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius:BorderRadius.circular(4),
-                      ),
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.blue,
-                          child: Text('${item.id}',
-                          style:  TextStyle( 
-                            color: Colors.white
-                          ),),
+                  return GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                       context: context,
+                       builder: (BuildContext context){
+                        return ClipRRect(
+                          clipBehavior: Clip.hardEdge,
+                          child: SizedBox(
+                              width: MediaQuery.sizeOf(context).width,
+                              height: 400,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: ListView(
+                                  children: [
+                                    Text('Name: ${item.name}'),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text('Email: ${item.email}'),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text('Body: ${item.body}'),
+                                  ],
+                                ),
+                              ),
+                              
+                        
                           ),
-
-                        title: Text(item.name),
-
-                      ));
+                        );
+                       });
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius:BorderRadius.circular(4),
+                        ),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.blue,
+                            child: Text('${item.id}',
+                            style:  TextStyle( 
+                              color: Colors.white
+                            ),),
+                            ),
+                  
+                          title: Text(item.name),
+                  
+                        ),
+                        ),
+                  );
                 }
 
                 );
